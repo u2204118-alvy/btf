@@ -262,6 +262,37 @@ class StudentManagementManager {
         return enrolledCourses;
     }
 
+    getEditEnrolledCourses() {
+        const enrolledCourses = [];
+        const courseCheckboxes = document.querySelectorAll('#editCourseSelection input[type="checkbox"]:checked');
+        
+        courseCheckboxes.forEach(checkbox => {
+            const courseId = checkbox.value;
+            const startingMonthId = document.getElementById(`editStartMonth_${courseId}`).value;
+            
+            if (startingMonthId) {
+                enrolledCourses.push({
+                    courseId,
+                    startingMonthId
+                });
+            }
+        });
+        
+        return enrolledCourses;
+    }
+
+    toggleEditCourseSelection(courseId) {
+        const checkbox = document.getElementById(`editCourse_${courseId}`);
+        const startingMonthDiv = document.getElementById(`editStartingMonth_${courseId}`);
+        
+        if (checkbox.checked) {
+            startingMonthDiv.style.display = 'block';
+        } else {
+            startingMonthDiv.style.display = 'none';
+            document.getElementById(`editStartMonth_${courseId}`).value = '';
+        }
+    }
+
     clearCourseSelection() {
         const courseSelectionDiv = document.getElementById('courseSelection');
         if (courseSelectionDiv) {
