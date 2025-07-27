@@ -168,7 +168,8 @@ class ReportsManager {
 
     filterBySpecificMonth(payments, monthId) {
         return payments.filter(payment => 
-            payment.months.includes(monthId)
+            payment.months.includes(monthId) || 
+            (payment.monthPayments && payment.monthPayments.some(mp => mp.monthId === monthId))
         );
     }
 
@@ -263,15 +264,97 @@ class ReportsManager {
     }
 
     renderPaymentItem(payment) {
-        const courseNames = payment.courses.map(courseId => {
-            const course = window.storageManager.getCourseById(courseId);
-            return course?.name || 'Unknown';
-        }).join(', ');
-
-        const monthNames = payment.months.map(monthId => {
-            const month = window.storageManager.getMonthById(monthId);
-            return month?.name || 'Unknown';
-        }).join(', ');
+        // Get the current report filters to determine what to show
+        const reportType = document.getElementById('reportType').value;
+        const reportCourse = document.getElementById('reportCourse').value;
+        const reportMonth = document.getElementById('reportMonth')?.value;
+        
+        let displayAmount = payment.paidAmount;
+        let courseNames = '';
+        let monthNames = '';
+        
+        if (reportType === 'month' && reportMonth) {
+            // For specific month reports, show only the amount paid for that month
+            if (payment.monthPayments) {
+                const monthPayment = payment.monthPayments.find(mp => mp.monthId === reportMonth);
+                if (monthPayment) {
+                    displayAmount = monthPayment.paidAmount;
+                    const month = window.storageManager.getMonthById(reportMonth);
+                    const course = month ? window.storageManager.getCourseById(month.courseId) : null;
+                    monthNames = month?.name || 'Unknown';
+                    courseNames = course?.name || 'Unknown';
+                } else {
+                    // Legacy payment handling
+                    const monthsInPayment = payment.months.filter(mId => mId === reportMonth);
+                    if (monthsInPayment.length > 0) {
+                        displayAmount = payment.paidAmount / payment.months.length;
+                        const month = window.storageManager.getMonthById(reportMonth);
+                        const course = month ? window.storageManager.getCourseById(month.courseId) : null;
+                        monthNames = month?.name || 'Unknown';
+                        courseNames = course?.name || 'Unknown';
+                    }
+                }
+            } else {
+                // Legacy payment handling
+                const monthsInPayment = payment.months.filter(mId => mId === reportMonth);
+                if (monthsInPayment.length > 0) {
+                    displayAmount = payment.paidAmount / payment.months.length;
+                    const month = window.storageManager.getMonthById(reportMonth);
+                    const course = month ? window.storageManager.getCourseById(month.courseId) : null;
+                    monthNames = month?.name || 'Unknown';
+                    courseNames = course?.name || 'Unknown';
+                }
+            }
+        } else if (reportType === 'course' && reportCourse) {
+            // For course reports, show only amounts for that course
+            if (payment.monthPayments) {
+                const courseMonths = window.storageManager.getMonthsByCourse(reportCourse);
+                const courseMonthIds = courseMonths.map(m => m.id);
+                const coursePayments = payment.monthPayments.filter(mp => courseMonthIds.includes(mp.monthId));
+                displayAmount = coursePayments.reduce((sum, mp) => sum + mp.paidAmount, 0);
+                
+                courseNames = payment.courses.map(courseId => {
+                    if (courseId === reportCourse) {
+                        const course = window.storageManager.getCourseById(courseId);
+                        return course?.name || 'Unknown';
+                    }
+                }).filter(Boolean).join(', ');
+                
+                monthNames = coursePayments.map(mp => {
+                    const month = window.storageManager.getMonthById(mp.monthId);
+                    return month?.name || 'Unknown';
+                }).join(', ');
+            } else {
+                // Legacy handling
+                courseNames = payment.courses.map(courseId => {
+                    const course = window.storageManager.getCourseById(courseId);
+                    return course?.name || 'Unknown';
+                }).join(', ');
+                
+                monthNames = payment.months.map(monthId => {
+                    const month = window.storageManager.getMonthById(monthId);
+                    return month?.name || 'Unknown';
+                }).join(', ');
+            }
+        } else {
+            // Default: show all courses and months
+            courseNames = payment.courses.map(courseId => {
+                const course = window.storageManager.getCourseById(courseId);
+                return course?.name || 'Unknown';
+            }).join(', ');
+            
+            if (payment.monthPayments) {
+                monthNames = payment.monthPayments.map(mp => {
+                    const month = window.storageManager.getMonthById(mp.monthId);
+                    return month?.name || 'Unknown';
+                }).join(', ');
+            } else {
+                monthNames = payment.months.map(monthId => {
+                    const month = window.storageManager.getMonthById(monthId);
+                    return month?.name || 'Unknown';
+                }).join(', ');
+            }
+        }
 
         return `
             <div class="payment-item">
@@ -293,11 +376,11 @@ class ReportsManager {
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Paid Amount</div>
-                    <div class="detail-value">${Utils.formatCurrency(payment.paidAmount)}</div>
+                    <div class="detail-value">${Utils.formatCurrency(displayAmount)}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Due Amount</div>
-                    <div class="detail-value">${Utils.formatCurrency(payment.dueAmount)}</div>
+                    <div class="detail-value">${reportType === 'month' && reportMonth ? 'N/A' : Utils.formatCurrency(payment.dueAmount)}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Received By</div>

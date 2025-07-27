@@ -533,6 +533,8 @@ class StudentManagementManager {
 
         const institutions = window.storageManager.getInstitutions();
         const batches = window.storageManager.getBatches();
+        const allCourses = window.storageManager.getCoursesByBatch(student.batchId);
+        const enrolledCourseIds = (student.enrolledCourses || []).map(e => e.courseId);
 
         const editForm = `
             <form id="editStudentForm">
@@ -586,6 +588,35 @@ class StudentManagementManager {
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>Course Enrollment</label>
+                    <div id="editCourseSelection" class="course-selection">
+                        ${allCourses.map(course => {
+                            const isEnrolled = enrolledCourseIds.includes(course.id);
+                            const enrollment = isEnrolled ? student.enrolledCourses.find(e => e.courseId === course.id) : null;
+                            const months = window.storageManager.getMonthsByCourse(course.id);
+                            const monthOptions = months.map(month => 
+                                `<option value="${month.id}" ${enrollment && enrollment.startingMonthId === month.id ? 'selected' : ''}>${month.name}</option>`
+                            ).join('');
+                            
+                            return `
+                                <div class="course-enrollment-item">
+                                    <div class="course-checkbox">
+                                        <input type="checkbox" id="editCourse_${course.id}" value="${course.id}" ${isEnrolled ? 'checked' : ''} onchange="studentManager.toggleEditCourseSelection('${course.id}')">
+                                        <label for="editCourse_${course.id}">${course.name}</label>
+                                    </div>
+                                    <div class="starting-month-select" id="editStartingMonth_${course.id}" style="display: ${isEnrolled ? 'block' : 'none'};">
+                                        <label for="editStartMonth_${course.id}">Starting Month:</label>
+                                        <select id="editStartMonth_${course.id}">
+                                            <option value="">Select Starting Month</option>
+                                            ${monthOptions}
+                                        </select>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">Update Student</button>
                     <button type="button" class="btn btn-outline" onclick="navigationManager.closeModal(document.getElementById('editModal'))">Cancel</button>
                 </div>
@@ -603,6 +634,7 @@ class StudentManagementManager {
             const guardianName = document.getElementById('editGuardianName').value.trim();
             const guardianPhone = document.getElementById('editGuardianPhone').value.trim();
             const batchId = document.getElementById('editStudentBatch').value;
+            const enrolledCourses = this.getEditEnrolledCourses();
 
             if (!name || !institutionId || !gender || !phone || !guardianName || !guardianPhone || !batchId) {
                 Utils.showToast('Please fill in all fields', 'error');
@@ -614,6 +646,10 @@ class StudentManagementManager {
                 return;
             }
 
+            if (enrolledCourses.length === 0) {
+                Utils.showToast('Please select at least one course', 'error');
+                return;
+            }
             const result = window.storageManager.updateStudent(id, {
                 name: Utils.sanitizeInput(name),
                 institutionId,
@@ -621,7 +657,8 @@ class StudentManagementManager {
                 phone: Utils.sanitizeInput(phone),
                 guardianName: Utils.sanitizeInput(guardianName),
                 guardianPhone: Utils.sanitizeInput(guardianPhone),
-                batchId
+                batchId,
+                enrolledCourses
             });
 
             if (result) {
