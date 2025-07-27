@@ -324,7 +324,7 @@ class StudentManagementManager {
                                     unpaidDue += month.payment;
                                 } else {
                                     // Partial payment made, calculate remaining due
-                                    const remainingDue = month.payment - monthPayment.totalPaid;
+                                    const remainingDue = Math.max(0, month.payment - monthPayment.totalPaid);
                                     if (remainingDue > 0) {
                                         unpaidDue += remainingDue;
                                     }
@@ -437,8 +437,14 @@ class StudentManagementManager {
                                 );
                                 
                                 applicableMonths.forEach(month => {
-                                    if (!paidMonths.has(month.id)) {
+                                    const monthPayment = window.storageManager.getMonthPaymentDetails(student.id)[month.id];
+                                    if (!monthPayment) {
+                                        // No payment made for this month
                                         unpaidDue += month.payment;
+                                    } else {
+                                        // Check if there's remaining due
+                                        const remainingDue = Math.max(0, month.payment - monthPayment.totalPaid);
+                                        unpaidDue += remainingDue;
                                     }
                                 });
                             }

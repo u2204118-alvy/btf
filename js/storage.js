@@ -337,7 +337,7 @@ class StorageManager {
                     if (!monthPayments[monthId]) {
                         monthPayments[monthId] = {
                             totalPaid: 0,
-                            totalDue: monthPayment.monthFee,
+                            totalDue: monthPayment.monthFee || 0,
                             payments: []
                         };
                     }
@@ -347,6 +347,28 @@ class StorageManager {
                         paidAmount: monthPayment.paidAmount,
                         date: payment.createdAt
                     });
+                });
+            } else if (payment.months) {
+                // Handle legacy payments that don't have monthPayments structure
+                payment.months.forEach(monthId => {
+                    const month = this.getMonthById(monthId);
+                    if (month) {
+                        if (!monthPayments[monthId]) {
+                            monthPayments[monthId] = {
+                                totalPaid: 0,
+                                totalDue: month.payment,
+                                payments: []
+                            };
+                        }
+                        // For legacy payments, assume full month payment
+                        const amountPaid = payment.paidAmount / payment.months.length;
+                        monthPayments[monthId].totalPaid += amountPaid;
+                        monthPayments[monthId].payments.push({
+                            paymentId: payment.id,
+                            paidAmount: amountPaid,
+                            date: payment.createdAt
+                        });
+                    }
                 });
             }
         });

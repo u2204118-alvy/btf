@@ -295,7 +295,7 @@ class FeePaymentManager {
             .map(checkbox => ({
                 monthId: checkbox.value,
                 monthFee: parseFloat(checkbox.dataset.totalFee || 0),
-                paidAmount: parseFloat(checkbox.dataset.amount || 0), // This is the remaining due amount
+                remainingDue: parseFloat(checkbox.dataset.amount || 0), // This is the remaining due amount
                 alreadyPaid: parseFloat(checkbox.dataset.paidAmount || 0)
             }));
 
@@ -321,13 +321,15 @@ class FeePaymentManager {
 
         const dueAmount = Math.max(0, totalAmount - paidAmount);
 
+        // Calculate how much to allocate to each month
+        const monthPayments = this.calculateMonthPayments(selectedMonths, paidAmount);
         const payment = {
             studentId: this.currentStudent.id,
             studentName: this.currentStudent.name,
             studentStudentId: this.currentStudent.studentId,
             courses: selectedCourses,
             months: selectedMonths.map(m => m.monthId), // Keep backward compatibility
-            monthPayments: selectedMonths, // Detailed month payment info
+            monthPayments: monthPayments, // Detailed month payment info with actual allocations
             totalAmount,
             paidAmount,
             dueAmount,
@@ -348,6 +350,28 @@ class FeePaymentManager {
         }
     }
 
+    calculateMonthPayments(selectedMonths, totalPaidAmount) {
+        const monthPayments = [];
+        let remainingAmount = totalPaidAmount;
+        
+        // Distribute the paid amount across selected months
+        for (const month of selectedMonths) {
+            if (remainingAmount <= 0) break;
+            
+            const amountForThisMonth = Math.min(remainingAmount, month.remainingDue);
+            
+            monthPayments.push({
+                monthId: month.monthId,
+                monthFee: month.monthFee,
+                paidAmount: amountForThisMonth,
+                previouslyPaid: month.alreadyPaid
+            });
+            
+            remainingAmount -= amountForThisMonth;
+        }
+        
+        return monthPayments;
+    }
     resetPaymentForm() {
         document.getElementById('findStudentForm').reset();
         document.getElementById('feePaymentForm').reset();
