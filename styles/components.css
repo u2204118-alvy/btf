@@ -1,0 +1,1634 @@
+/* Students List */
+.students-section {
+    margin-top: 32px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.section-header h3 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-controls input,
+.filter-controls select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.students-list {
+    display: grid;
+    gap: 16px;
+}
+
+.student-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.student-card:hover {
+    box-shadow: 0 4px 16px var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.student-basic-info h4 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.student-id {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.student-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.student-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.payment-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payment-status.paid {
+    background: rgba(40, 167, 69, 0.2);
+    color: var(--success-color);
+}
+
+.payment-status.unpaid {
+    background: rgba(220, 53, 69, 0.2);
+    color: var(--danger-color);
+}
+
+.payment-status.partial {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--warning-color);
+}
+
+/* Fee Payment Components */
+.fee-payment-container {
+    display: grid;
+    gap: 24px;
+}
+
+.student-search-card,
+.student-info-card,
+.payment-form-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.student-payment-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.student-info-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.checkbox-group {
+    display: grid;
+    gap: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.checkbox-item:hover {
+    background: var(--hover-bg);
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.checkbox-item label {
+    flex: 1;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-fee {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Paid month styling */
+.checkbox-item.paid-month {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid var(--success-color);
+}
+
+.checkbox-item.paid-month label {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+.checkbox-item.paid-month input[type="checkbox"] {
+    accent-color: var(--success-color);
+}
+
+/* Partial payment styling */
+.checkbox-item.partial-month {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid var(--warning-color);
+}
+
+.checkbox-item.partial-month label {
+    color: var(--warning-color);
+    font-weight: 500;
+}
+
+.checkbox-item.partial-month input[type="checkbox"] {
+    accent-color: var(--warning-color);
+}
+
+/* Discounted month styling */
+.checkbox-item.discounted-month {
+    background: rgba(138, 43, 226, 0.1);
+    border: 1px solid #8a2be2;
+}
+
+.checkbox-item.discounted-month label {
+    color: #8a2be2;
+    font-weight: 500;
+}
+
+.checkbox-item.discounted-month input[type="checkbox"] {
+    accent-color: #8a2be2;
+}
+/* Discount selection styling */
+#discountSelection .checkbox-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+#discountSelection .checkbox-item:hover {
+    border-color: var(--primary-color);
+    background: var(--hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 38, 127, 0.1);
+}
+
+#discountSelection .checkbox-item.discount-option input[type="checkbox"]:checked + label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+#discountSelection .checkbox-item.discount-option input[type="checkbox"]:checked + label .month-course-info {
+    color: var(--primary-color);
+}
+
+#discountSelection .checkbox-item.discount-option input[type="checkbox"]:not(:checked) + label {
+    opacity: 0.6;
+}
+
+#discountSelection .checkbox-item.discount-option input[type="checkbox"]:not(:checked) + label .course-fee {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+#discountSelection .course-fee {
+    font-size: 0.9rem;
+    color: var(--success-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.month-course-info {
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+/* Discount applied/not applied visual feedback */
+#discountSelection .discount-option.discount-applied {
+    background: rgba(40, 167, 69, 0.1);
+    border-color: var(--success-color);
+}
+
+#discountSelection .discount-option.discount-applied .month-course-info {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+#discountSelection .discount-option.discount-not-applied {
+    background: rgba(108, 117, 125, 0.1);
+    border-color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+#discountSelection .discount-option.discount-not-applied .month-course-info {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+}
+
+#discountSelection .discount-option.discount-not-applied .course-fee {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+}
+
+/* Discount tag styling */
+.discount-tag {
+    background: var(--warning-color);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+/* Reports Components */
+.reports-container {
+    display: grid;
+    gap: 24px;
+}
+
+.report-filters {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.filter-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.report-results {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    min-height: 300px;
+}
+
+.report-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.payment-list {
+    display: grid;
+    gap: 12px;
+}
+
+.payment-item {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.payment-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(220, 38, 127, 0.1);
+}
+
+/* User Management Components */
+.user-management-container {
+    display: grid;
+    gap: 24px;
+}
+
+.add-user-card,
+.users-list-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.user-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(220, 38, 127, 0.1);
+}
+
+.user-info h4 {
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.user-role {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-role.admin {
+    background: rgba(220, 38, 127, 0.2);
+    color: var(--primary-color);
+}
+
+.user-role.manager {
+    background: rgba(40, 167, 69, 0.2);
+    color: var(--success-color);
+}
+
+.user-role.developer {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--warning-color);
+}
+
+/* Invoice Components */
+.invoice-container {
+    background: white;
+    color: #000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.3;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* Thermal Printer Styles */
+.thermal-header {
+    text-align: center;
+    padding: 10px 15px;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+}
+
+.thermal-header .company-logo h1 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+    letter-spacing: 1px;
+}
+
+.thermal-header .company-logo p {
+    font-size: 10px;
+    margin: 0 0 8px 0;
+    font-weight: normal;
+}
+
+.thermal-header .company-details p {
+    font-size: 9px;
+    margin: 1px 0;
+    color: #333;
+}
+
+.thermal-invoice-info {
+    padding: 8px 15px;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+}
+
+.invoice-title {
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.invoice-details-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.thermal-customer {
+    padding: 8px 15px;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.customer-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.customer-row .label {
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.customer-row .value {
+    text-align: right;
+    flex: 1;
+}
+
+.thermal-items {
+    padding: 8px 15px;
+    margin-bottom: 10px;
+}
+
+.items-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.items-header .item-desc {
+    flex: 1;
+}
+
+.items-header .item-amount {
+    text-align: right;
+    min-width: 60px;
+}
+
+.items-divider {
+    border-top: 1px dashed #000;
+    margin: 5px 0;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 4px;
+    align-items: flex-start;
+}
+
+.item-row .item-desc {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.item-row .item-desc small {
+    font-size: 8px;
+    color: #666;
+}
+
+.item-row .item-amount {
+    text-align: right;
+    min-width: 60px;
+    font-weight: bold;
+}
+
+.thermal-totals {
+    padding: 0 15px;
+    margin-bottom: 10px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.total-row .total-label {
+    font-weight: bold;
+}
+
+.total-row .total-amount {
+    text-align: right;
+    font-weight: bold;
+    min-width: 60px;
+}
+
+.discount-row {
+    color: #dc267f;
+}
+
+.paid-row {
+    font-size: 12px;
+    font-weight: bold;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 3px 0;
+    margin: 5px 0;
+}
+
+.due-row {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.thermal-payment-info {
+    padding: 8px 15px;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+
+.payment-row .label {
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.payment-row .value {
+    text-align: right;
+    flex: 1;
+}
+
+.thermal-footer {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.thank-you {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.footer-note {
+    font-size: 9px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.footer-contact {
+    font-size: 8px;
+    color: #666;
+}
+
+.print-actions {
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    background: #f8f9fa;
+}
+
+.print-actions .btn {
+    margin: 0 5px;
+}
+
+/* Print Styles for Thermal Printer */
+@media print {
+    .invoice-container {
+        max-width: none;
+        width: 58mm; /* Standard thermal printer width */
+        font-size: 10px;
+        margin: 0;
+        padding: 0;
+        background: white !important;
+        color: #000 !important;
+        font-family: 'Courier New', monospace !important;
+    }
+    
+    .print-actions {
+        display: none;
+    }
+    
+    .thermal-header {
+        text-align: center;
+        padding: 10px 15px;
+        border-bottom: 1px dashed #000 !important;
+        margin-bottom: 10px;
+    }
+    
+    .thermal-header .company-logo h1 {
+        font-size: 18px !important;
+        font-weight: 900 !important;
+        margin: 0 0 5px 0;
+        letter-spacing: 2px !important;
+        color: #000 !important;
+    }
+    
+    .thermal-header .company-logo p {
+        font-size: 11px !important;
+        margin: 0 0 8px 0;
+        font-weight: bold !important;
+        color: #000 !important;
+    }
+    
+    .thermal-header .company-details p {
+        font-size: 12px !important;
+        margin: 1px 0;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .thermal-invoice-info {
+        padding: 8px 15px;
+        border-bottom: 1px dashed #000 !important;
+        margin-bottom: 10px;
+    }
+    
+    .invoice-title {
+        text-align: right !important;
+        font-size: 16px !important;
+        font-weight: 900 !important;
+        margin-bottom: 8px;
+        letter-spacing: 2px !important;
+        color: #000 !important;
+    }
+    
+    .invoice-details-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        margin-bottom: 2px;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .thermal-customer {
+        padding: 8px 15px;
+        border-bottom: 1px dashed #000 !important;
+        margin-bottom: 10px;
+    }
+    
+    .section-title {
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        margin-bottom: 6px;
+        text-align: center;
+        letter-spacing: 1.5px !important;
+        color: #000 !important;
+    }
+    
+    .customer-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        margin-bottom: 2px;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .customer-row .label {
+        font-weight: 900 !important;
+        min-width: 80px;
+        color: #000 !important;
+    }
+    
+    .customer-row .value {
+        text-align: right;
+        flex: 1;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .thermal-items {
+        padding: 8px 15px;
+        margin-bottom: 10px;
+    }
+    
+    .items-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        margin-bottom: 5px;
+        color: #000 !important;
+    }
+    
+    .items-header .item-desc {
+        flex: 1;
+    }
+    
+    .items-header .item-amount {
+        text-align: right;
+        min-width: 60px;
+    }
+    
+    .thermal-header,
+    .thermal-invoice-info,
+    .thermal-customer,
+    .thermal-items,
+    .thermal-totals,
+    .thermal-payment-info {
+        page-break-inside: avoid;
+    }
+    
+    .items-divider {
+        border-top: 2px dashed #000 !important;
+        margin: 5px 0;
+    }
+    
+    .item-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        margin-bottom: 4px;
+        align-items: flex-start;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .item-row .item-desc {
+        flex: 1;
+        padding-right: 10px;
+    }
+    
+    .item-row .item-desc small {
+        font-size: 11px !important;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .item-row .item-amount {
+        text-align: right;
+        min-width: 60px;
+        font-weight: 900 !important;
+        color: #000 !important;
+    }
+    
+    .thermal-totals {
+        padding: 0 15px;
+        margin-bottom: 10px;
+    }
+    
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        margin-bottom: 2px;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .total-row .total-label {
+        font-weight: 900 !important;
+        color: #000 !important;
+    }
+    
+    .total-row .total-amount {
+        text-align: right;
+        font-weight: 900 !important;
+        min-width: 60px;
+        color: #000 !important;
+    }
+    
+    .discount-row {
+        color: #000 !important;
+        font-weight: 900 !important;
+    }
+    
+    .paid-row {
+        font-size: 14px !important;
+        font-weight: 900 !important;
+        border-top: 3px solid #000 !important;
+        border-bottom: 3px solid #000 !important;
+        padding: 3px 0;
+        margin: 5px 0;
+        color: #000 !important;
+    }
+    
+    .due-row {
+        color: #000 !important;
+        font-weight: 900 !important;
+    }
+    
+    .thermal-payment-info {
+        padding: 8px 15px;
+        border-bottom: 1px dashed #000 !important;
+        margin-bottom: 10px;
+    }
+    
+    .payment-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px !important;
+        margin-bottom: 2px;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .payment-row .label {
+        font-weight: 900 !important;
+        min-width: 80px;
+        color: #000 !important;
+    }
+    
+    .payment-row .value {
+        text-align: right;
+        flex: 1;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .thermal-footer {
+        padding: 10px 15px;
+        text-align: center;
+    }
+    
+    .thank-you {
+        font-size: 14px !important;
+        font-weight: 900 !important;
+        margin-bottom: 8px;
+        letter-spacing: 2px !important;
+        color: #000 !important;
+    }
+    
+    .footer-note {
+        font-size: 12px !important;
+        margin-bottom: 8px;
+        line-height: 1.2;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .footer-contact {
+        font-size: 11px !important;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        background: white !important;
+        font-family: 'Courier New', monospace !important;
+        font-weight: bold !important;
+    }
+    
+    .invoice-container {
+        background: white !important;
+        color: #000 !important;
+        font-family: 'Courier New', monospace !important;
+        font-weight: bold !important;
+        font-size: 12px !important;
+        line-height: 1.3 !important;
+        max-width: 300px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+    }
+    
+    .thermal-header {
+        text-align: center !important;
+        padding: 10px 15px !important;
+        border-bottom: 1px dashed #000 !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .invoice-container {
+        max-width: 100%;
+        font-size: 11px;
+    }
+    
+    .thermal-header .company-logo h1 {
+        font-size: 14px;
+    }
+    
+    .invoice-title {
+        font-size: 12px;
+    }
+}
+
+/* Legacy styles cleanup */
+.invoice-header,
+.company-info,
+.invoice-meta,
+.invoice-details,
+.invoice-to,
+.invoice-info,
+.invoice-table,
+.invoice-total,
+.total-section,
+.invoice-footer {
+    /* Remove old styles */
+}
+
+/* Recent Activities */
+.recent-activities {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.activities-list {
+    display: grid;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(220, 38, 127, 0.1);
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-text {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.activity-time {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Students Database Styles */
+.database-filters {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.database-filters h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.filter-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.filter-actions .btn {
+    flex: 0 0 auto;
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+.database-summary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.database-results {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.students-database-list {
+    display: grid;
+    gap: 20px;
+}
+
+.database-student-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.database-student-card:hover {
+    box-shadow: 0 4px 16px var(--shadow-medium);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.student-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 16px 0;
+}
+
+.detail-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.detail-section h5 {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detail-section .detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 4px 0;
+}
+
+.detail-section .detail-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.detail-section .detail-value {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: right;
+}
+
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.no-results h3 {
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.payment-history {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.payment-history-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.payment-date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.payment-details p {
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .student-payment-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-controls {
+        justify-content: stretch;
+    }
+    
+    .filter-controls input,
+    .filter-controls select {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .student-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .student-actions {
+        justify-content: flex-start;
+    }
+    
+    .invoice-details {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .invoice-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .invoice-meta {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .filter-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .report-summary {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .payment-item {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-actions {
+        grid-column: 1 / -1;
+        justify-content: stretch;
+    }
+    
+    .filter-actions .btn {
+        flex: 1;
+    }
+    
+    .summary-stats {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .student-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-section .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .detail-section .detail-value {
+        text-align: left;
+    }
+}
+
+/* Course Enrollment Styles */
+.course-selection {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    background: var(--bg-primary);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.course-enrollment-item {
+    margin-bottom: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow-light);
+}
+
+.course-enrollment-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 8px var(--shadow-medium);
+    transform: translateY(-1px);
+}
+
+.course-checkbox {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.course-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.course-checkbox label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    flex: 0 0 auto;
+    min-width: 120px;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.starting-month-select {
+    margin-left: 28px;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.starting-month-select label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.starting-month-select select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+}
+
+.starting-month-select select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(220, 38, 127, 0.1);
+}
+
+/* Student Form Enhancements */
+.management-card.full-width {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+.management-card.full-width h3 {
+    background: linear-gradient(135deg, var(--primary-color), #ff2e8f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.form-row {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--bg-primary);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(220, 38, 127, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-group input:valid,
+.form-group select:valid {
+    border-color: var(--success-color);
+}
+
+/* Course Selection Container */
+.course-selection {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: inset 0 2px 8px var(--shadow-light);
+}
+
+.course-selection::-webkit-scrollbar {
+    width: 8px;
+}
+
+.course-selection::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 4px;
+}
+
+.course-selection::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.course-selection::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* Empty state styling */
+.course-selection p {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 40px 20px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    border: 2px dashed var(--border-color);
+}
+
+/* Submit button enhancement */
+.management-card.full-width .btn-primary {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary-color), #ff2e8f);
+    box-shadow: 0 4px 16px rgba(220, 38, 127, 0.3);
+    transition: all 0.3s ease;
+}
+
+.management-card.full-width .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220, 38, 127, 0.4);
+}
+
+/* Form section headers */
+.form-section-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    margin: 0 -20px 20px -20px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px 8px 0 0;
+}

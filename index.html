@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break The Fear - Fee Management System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal active">
+        <div class="modal-content">
+            <div class="login-header">
+                <h2>Break The Fear</h2>
+                <p>Fee Management System</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div class="demo-credentials">
+                <h4>Demo Credentials:</h4>
+                <p><strong>Admin:</strong> admin / admin123</p>
+                <p><strong>Manager:</strong> manager / manager123</p>
+                <p><strong>Developer:</strong> developer / dev123</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Break The Fear</h1>
+                    <span>Fee Management System</span>
+                </div>
+                <div class="header-actions">
+                    <button id="themeToggle" class="btn btn-secondary">🌓</button>
+                    <div class="user-info">
+                        <span id="currentUser"></span>
+                        <button id="logoutBtn" class="btn btn-outline">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-content">
+                <button class="nav-item active" data-page="dashboard">Dashboard</button>
+                <button class="nav-item" data-page="manage-batch" data-roles="admin,developer">Manage Batch</button>
+                <button class="nav-item" data-page="manage-students">Manage Students</button>
+                <button class="nav-item" data-page="students-database">Students Database</button>
+                <button class="nav-item" data-page="pay-fee">Pay Fee</button>
+                <button class="nav-item" data-page="reports" data-roles="admin,developer">Reports</button>
+                <button class="nav-item" data-page="discount-reports" data-roles="admin,developer">Discount Reports</button>
+                <button class="nav-item" data-page="reference-management" data-roles="developer">Reference Management</button>
+                <button class="nav-item" data-page="user-management" data-roles="developer">User Management</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard -->
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Students</h3>
+                        <div class="stat-number" id="totalStudents">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Batches</h3>
+                        <div class="stat-number" id="totalBatches">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>This Month Revenue</h3>
+                        <div class="stat-number" id="monthlyRevenue">৳0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Fees</h3>
+                        <div class="stat-number" id="pendingFees">৳0</div>
+                    </div>
+                </div>
+                <div class="recent-activities">
+                    <h3>Recent Activities</h3>
+                    <div id="recentActivities" class="activities-list"></div>
+                </div>
+            </section>
+
+            <!-- Manage Batch -->
+            <section id="manage-batch" class="page">
+                <div class="page-header">
+                    <h2>Manage Batch</h2>
+                </div>
+                <div class="management-grid">
+                    <!-- Create Batch -->
+                    <div class="management-card">
+                        <h3>Create Batch</h3>
+                        <form id="createBatchForm">
+                            <div class="form-group">
+                                <label for="batchName">Batch Name</label>
+                                <input type="text" id="batchName" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Batch</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Batches</h4>
+                            <div id="batchList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Create Course -->
+                    <div class="management-card">
+                        <h3>Create Course</h3>
+                        <form id="createCourseForm">
+                            <div class="form-group">
+                                <label for="courseName">Course Name</label>
+                                <input type="text" id="courseName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="courseBatch">Select Batch</label>
+                                <select id="courseBatch" required>
+                                    <option value="">Select Batch</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Course</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Courses</h4>
+                            <div id="courseList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Create Month -->
+                    <div class="management-card">
+                        <h3>Create Month</h3>
+                        <form id="createMonthForm">
+                            <div class="form-group">
+                                <label for="monthName">Month Name</label>
+                                <select id="monthName" required>
+                                    <option value="">Select Month</option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                    <option value="custom">Custom Name</option>
+                                </select>
+                                <input type="text" id="customMonthName" placeholder="Enter custom month name" style="display: none; margin-top: 8px;" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="monthNumber">Month Number (1-12)</label>
+                                <select id="monthNumber" required>
+                                    <option value="">Select Number</option>
+                                    <option value="1">1 (January)</option>
+                                    <option value="2">2 (February)</option>
+                                    <option value="3">3 (March)</option>
+                                    <option value="4">4 (April)</option>
+                                    <option value="5">5 (May)</option>
+                                    <option value="6">6 (June)</option>
+                                    <option value="7">7 (July)</option>
+                                    <option value="8">8 (August)</option>
+                                    <option value="9">9 (September)</option>
+                                    <option value="10">10 (October)</option>
+                                    <option value="11">11 (November)</option>
+                                    <option value="12">12 (December)</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="custom">Custom Number</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="customMonthNumberGroup" style="display: none;">
+                                <label for="customMonthNumber">Custom Month Number</label>
+                                <input type="number" id="customMonthNumber" min="1" max="999" placeholder="Enter custom month number">
+                            </div>
+                            <div class="form-group">
+                                <label for="monthCourse">Select Course</label>
+                                <select id="monthCourse" required>
+                                    <option value="">Select Course</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="coursePayment">Course Payment (৳)</label>
+                                <input type="number" id="coursePayment" required min="0">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Month</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Months</h4>
+                            <div id="monthList"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Students -->
+            <section id="manage-students" class="page">
+                <div class="page-header">
+                    <h2>Manage Students</h2>
+                </div>
+                <div class="management-grid">
+                    <!-- Create Institution -->
+                    <div class="management-card">
+                        <h3>Create Institution</h3>
+                        <form id="createInstitutionForm">
+                            <div class="form-group">
+                                <label for="institutionName">Institution Name</label>
+                                <input type="text" id="institutionName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="institutionAddress">Institution Address</label>
+                                <textarea id="institutionAddress" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Institution</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Institutions</h4>
+                            <div id="institutionList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Add Student -->
+                    <div class="management-card full-width">
+                        <h3>Add Student</h3>
+                        <form id="addStudentForm">
+                            <div class="form-section-header">Personal Information</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentName">Student Name</label>
+                                    <input type="text" id="studentName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="studentInstitution">Institution</label>
+                                    <select id="studentInstitution" required>
+                                        <option value="">Select Institution</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="studentGender">Gender</label>
+                                    <select id="studentGender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Custom">Custom</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-section-header">Contact Information</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentPhone">Student Phone</label>
+                                    <input type="tel" id="studentPhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guardianName">Guardian Name</label>
+                                    <input type="text" id="guardianName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guardianPhone">Guardian Phone</label>
+                                    <input type="tel" id="guardianPhone" required>
+                                </div>
+                            </div>
+                            <div class="form-section-header">Academic Information</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentBatch">Batch</label>
+                                    <select id="studentBatch" required>
+                                        <option value="">Select Batch</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-section-header">Course Enrollment</div>
+                            <div class="form-group">
+                                <div id="courseSelection" class="course-selection">
+                                    <p>Please select a batch first</p>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Student</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Database -->
+            <section id="students-database" class="page">
+                <div class="page-header">
+                    <h2>Students Database</h2>
+                </div>
+                
+                <!-- Advanced Filters -->
+                <div class="database-filters">
+                    <h3>Filter Students</h3>
+                    <div class="filter-grid">
+                        <div class="form-group">
+                            <label for="dbSearchInput">Search</label>
+                            <input type="text" id="dbSearchInput" placeholder="Search by name, ID, or phone...">
+                        </div>
+                        <div class="form-group">
+                            <label for="dbBatchFilter">Batch</label>
+                            <select id="dbBatchFilter">
+                                <option value="">All Batches</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbCourseFilter">Course</label>
+                            <select id="dbCourseFilter">
+                                <option value="">All Courses</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbMonthFilter">Month</label>
+                            <select id="dbMonthFilter">
+                                <option value="">All Months</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbPaymentStatusFilter">Payment Status</label>
+                            <select id="dbPaymentStatusFilter">
+                                <option value="">All Students</option>
+                                <option value="paid">Fully Paid</option>
+                                <option value="partial">Partially Paid</option>
+                                <option value="unpaid">Unpaid</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbInstitutionFilter">Institution</label>
+                            <select id="dbInstitutionFilter">
+                                <option value="">All Institutions</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbGenderFilter">Gender</label>
+                            <select id="dbGenderFilter">
+                                <option value="">All Genders</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+                        <div class="filter-actions">
+                            <button id="dbApplyFilters" class="btn btn-primary">Apply Filters</button>
+                            <button id="dbClearFilters" class="btn btn-outline">Clear All</button>
+                            <button id="dbExportData" class="btn btn-secondary">Export CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Summary -->
+                <div class="database-summary">
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Students</span>
+                            <span class="stat-value" id="dbTotalStudents">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Filtered Results</span>
+                            <span class="stat-value" id="dbFilteredCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value" id="dbTotalRevenue">৳0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Pending Dues</span>
+                            <span class="stat-value" id="dbPendingDues">৳0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Students List -->
+                <div class="database-results">
+                    <div id="dbStudentsList" class="students-database-list"></div>
+                </div>
+            </section>
+
+            <!-- Pay Fee -->
+            <section id="pay-fee" class="page">
+                <div class="page-header">
+                    <h2>Pay Fee</h2>
+                </div>
+                <div class="fee-payment-container">
+                    <div class="student-search-card">
+                        <h3>Find Student</h3>
+                        <form id="findStudentForm">
+                            <div class="form-group">
+                                <label for="searchStudentId">Search Student</label>
+                                <input type="text" id="searchStudentId" placeholder="Enter Student ID or Student Name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Find Student</button>
+                        </form>
+                    </div>
+
+                    <div id="studentPaymentInfo" class="student-payment-info" style="display: none;">
+                        <div class="student-info-card">
+                            <h3>Student Information</h3>
+                            <div id="studentInfoDisplay"></div>
+                        </div>
+
+                        <div class="payment-form-card">
+                            <h3>Fee Payment</h3>
+                            <form id="feePaymentForm">
+                                <div class="form-group">
+                                    <label>Select Courses</label>
+                                    <div id="courseSelection" class="checkbox-group"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Months</label>
+                                    <div id="monthSelection" class="checkbox-group"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="totalAmount">Total Amount (৳)</label>
+                                        <input type="number" id="totalAmount" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="discountedAmount">Discounted Amount (৳)</label>
+                                        <input type="number" id="discountedAmount" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="discountType">Discount Type</label>
+                                        <select id="discountType" onchange="feePaymentManager.calculateDiscount()">
+                                            <option value="fixed">Fixed Amount</option>
+                                            <option value="percentage">Percentage</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="discountAmount">Discount Amount/Percentage</label>
+                                        <input type="number" id="discountAmount" min="0" step="0.01" placeholder="Enter discount value" oninput="feePaymentManager.calculateDiscount()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Apply Discount To (Select specific months)</label>
+                                    <div id="discountSelection" class="checkbox-group"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="paidAmount">Paid Amount (৳)</label>
+                                        <input type="number" id="paidAmount" required min="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dueAmount">Due Amount (৳)</label>
+                                        <input type="number" id="dueAmount" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="reference">Reference</label>
+                                        <select id="referenceSelect" onchange="feePaymentManager.toggleCustomReference()">
+                                            <option value="">Select Reference</option>
+                                        </select>
+                                        <input type="text" id="referenceCustom" placeholder="Enter custom reference" style="display: none; margin-top: 8px;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="receivedBy">Payment Received By</label>
+                                        <select id="receivedBySelect" onchange="feePaymentManager.toggleCustomReceivedBy()" required>
+                                            <option value="">Select Receiver</option>
+                                        </select>
+                                        <input type="text" id="receivedByCustom" placeholder="Enter custom receiver name" style="display: none; margin-top: 8px;" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Process Payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports -->
+            <section id="reports" class="page">
+                <div class="page-header">
+                    <h2>Reports</h2>
+                </div>
+                <div class="reports-container">
+                    <div class="report-filters">
+                        <h3>Filter Reports</h3>
+                        <div class="filter-group">
+                            <div class="form-group">
+                                <label for="reportType">Report Type</label>
+                                <select id="reportType">
+                                    <option value="date">By Date</option>
+                                    <option value="week">By Week</option>
+                                    <option value="month">By Month</option>
+                                    <option value="course">By Course</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportDate">Date</label>
+                                <input type="date" id="reportDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="reportCourse">Course</label>
+                                <select id="reportCourse">
+                                    <option value="">All Courses</option>
+                                </select>
+                            </div>
+                            <button id="generateReport" class="btn btn-primary">Generate Report</button>
+                        </div>
+                    </div>
+                    <div id="reportResults" class="report-results"></div>
+                </div>
+            </section>
+
+            <!-- Discount Reports -->
+            <section id="discount-reports" class="page">
+                <div class="page-header">
+                    <h2>Discount Reports</h2>
+                </div>
+                <div class="reports-container">
+                    <div class="report-filters">
+                        <h3>Filter Discount Reports</h3>
+                        <div class="filter-group">
+                            <div class="form-group">
+                                <label for="discountReportType">Report Type</label>
+                                <select id="discountReportType">
+                                    <option value="all">All Discounts</option>
+                                    <option value="date">By Date</option>
+                                    <option value="student">By Student</option>
+                                    <option value="course">By Course</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="discountReportDate">Date</label>
+                                <input type="date" id="discountReportDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="discountReportCourse">Course</label>
+                                <select id="discountReportCourse">
+                                    <option value="">All Courses</option>
+                                </select>
+                            </div>
+                            <button id="generateDiscountReport" class="btn btn-primary">Generate Report</button>
+                        </div>
+                    </div>
+                    <div id="discountReportResults" class="report-results"></div>
+                </div>
+            </section>
+
+            <!-- Reference Management -->
+            <section id="reference-management" class="page">
+                <div class="page-header">
+                    <h2>Reference Management</h2>
+                </div>
+                <div class="management-grid">
+                    <!-- Manage Reference Options -->
+                    <div class="management-card">
+                        <h3>Manage Reference Options</h3>
+                        <form id="addReferenceForm">
+                            <div class="form-group">
+                                <label for="newReference">Reference Option</label>
+                                <input type="text" id="newReference" placeholder="e.g., Cash Payment, Bank Transfer" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Reference</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Reference Options</h4>
+                            <div id="referenceOptionsList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Manage Received By Options -->
+                    <div class="management-card">
+                        <h3>Manage Received By Options</h3>
+                        <form id="addReceivedByForm">
+                            <div class="form-group">
+                                <label for="newReceivedBy">Receiver Name</label>
+                                <input type="text" id="newReceivedBy" placeholder="e.g., John Doe, Reception Desk" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Receiver</button>
+                        </form>
+                        <div class="entity-list">
+                            <h4>Existing Receiver Options</h4>
+                            <div id="receivedByOptionsList"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management -->
+            <section id="user-management" class="page">
+                <div class="page-header">
+                    <h2>User Management</h2>
+                </div>
+                <div class="user-management-container">
+                    <div class="add-user-card">
+                        <h3>Add New User</h3>
+                        <form id="addUserForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newUsername">Username</label>
+                                    <input type="text" id="newUsername" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">Password</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newUserRole">Role</label>
+                                    <select id="newUserRole" required>
+                                        <option value="">Select Role</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="developer">Developer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add User</button>
+                        </form>
+                    </div>
+                    <div class="users-list-card">
+                        <h3>Existing Users</h3>
+                        <div id="usersList"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Modals -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="editModalTitle">Edit</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="editModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Invoice</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="invoiceContent"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/batch-management.js"></script>
+    <script src="js/student-management.js"></script>
+    <script src="js/fee-payment.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/user-management.js"></script>
+    <script src="js/reference-management.js"></script>
+    <script src="js/students-database.js"></script>
+    <script src="js/invoice.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
